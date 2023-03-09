@@ -72,6 +72,25 @@ function mainMenu(person, people) {
         case "family":
             //! TODO #2: Declare a findPersonFamily function //////////////////////////////////////////
             // HINT: Look for a people-collection stringifier utility function to help
+            // function findPersonFamily() {
+            function findPersonParent(data) {
+                let parentResults = data.some(person => person.parents);
+                   
+                return parentResults;
+            }
+                let personParent = findPersonParent();
+                console.log(`parents ids: ${personParent}`);
+                
+                
+            // function findPersonSiblings()
+            //     let personSiblings =
+
+            // function findPersonSpouse()
+            //     let personSpouse =
+
+            
+            // }
+            //     let peopleInfo = displayPeople(people);
             let personFamily = findPersonFamily(person[0], people);
             alert(personFamily);
             break;
@@ -140,7 +159,15 @@ function displayPeople(people) {
 function displayPerson(person) {
     let personInfo = `First Name: ${person.firstName}\n`;
     personInfo += `Last Name: ${person.lastName}\n`;
-    //! TODO #1a: finish getting the rest of the information to display //////////////////////////////////////////
+    personInfo += `Gender: ${person.gender}\n`;
+    personInfo += `Birthdate: ${person.dob}\n`;
+    personInfo += `Height: ${person.height} inches\n`;
+    personInfo += `Weight: ${person.weight} pounds\n`;
+    personInfo += `Eye Color: ${person.eyeColor}\n`;
+    personInfo += `Occupation: ${person.occupation}\n`;
+    personInfo += `Parent(s) ID: ${person.parents}\n`;
+    personInfo += `Spouse: ${person.spouse}\n`;
+    // ! TODO #1a: finish getting the rest of the information to display //////////////////////////////////////////
     alert(personInfo);
 }
 // End of displayPerson()
