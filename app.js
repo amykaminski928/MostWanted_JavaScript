@@ -73,9 +73,14 @@ function mainMenu(person, people) {
             //! TODO #2: Declare a findPersonFamily function //////////////////////////////////////////
             // HINT: Look for a people-collection stringifier utility function to help
             // function findPersonFamily() {
-            function findPersonParent(data) {
-                let parentResults = data.some(person => person.parents);
-                   
+            function findPersonParent() {
+                let parentResults = data.map(function (person) {
+                    if (person.parents.includes(number)) {
+                        return true;
+                    } else {
+                        return [];
+                    }
+                });
                 return parentResults;
             }
                 let personParent = findPersonParent();
