@@ -96,7 +96,7 @@ function mainMenu(person, people) {
                 if (parents[0] === "no parent information") {
                   console.log(`${person[0].firstName} ${person[0].lastName}'s family members are:\nParents: no parent information\nCurrent Spouse: ${spouse}\nSiblings: no sibling information`);
                 } else {
-                  siblings = data.filter(obj => obj.id !== person[0].id && obj.parents.some(id => person[0].parents.includes(id[0])))
+                  siblings = data.filter(obj => obj.id !== person[0].id && obj.parents.some(id => person[0].parents.includes(id)))
                                  .map(obj => `${obj.firstName} ${obj.lastName}`);
                   if (siblings.length === 0) {
                     siblings = ["none found"];
