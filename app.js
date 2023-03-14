@@ -110,6 +110,24 @@ function mainMenu(person, people) {
         case "descendants":
             //! TODO #3: Declare a findPersonDescendants function //////////////////////////////////////////
             // HINT: Review recursion lecture + demo for bonus user story
+            /**This function recursively retrieves nested parent ID numbers that match the person named by the user.  The names of the person objs that 
+             * hold the nested ID are returned in a new array*/
+            function findPersonDescendants(person, array=[]) {
+                let childArray = data.filter(obj => obj.parents === person[0])
+                                .map(obj => `${obj.firstName} ${obj.lastName}`);
+                array = [data]
+                // Base Case - terminating condition (end of branch)
+                if (childArray.length === 0) {
+                    return array;
+                }
+                // Resursive Case - branch has sub branches, search continues
+                for (let i = 0; i < childArray.length; i++) {
+                    array = array.concat(
+                        findPersonDescendants(childArray[i])
+                    );
+                }
+                return array
+            }
             let personDescendants = findPersonDescendants(person[0], people);
             alert(personDescendants);
             break;
