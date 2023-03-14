@@ -72,39 +72,40 @@ function mainMenu(person, people) {
         case "family":
             //! TODO #2: Declare a findPersonFamily function //////////////////////////////////////////
             // HINT: Look for a people-collection stringifier utility function to help
-                function findPersonFamily() {
-                    let parents = [];
-                    let siblings = [];
-                    let spouse;
-                    // find parents by id and map their names into an array
-                    if (person.parents > 0) {
-                      parents = data.filter(obj => person.parents.includes(obj.id))
-                                    .map(obj => `${obj.firstName} ${obj.lastName}`);  
-                    } else {
-                      parents = "no parent information";
-                    }
-                    //find current spouse and create spouse variable with first and last name 
-                    if (person.currentSpouse) {
-                      let spouseObj = data.find(obj => obj.id === person.currentSpouse);
-                      if (spouseObj) {
-                        spouse = `${spouseObj.firstName} ${spouseObj.lastName}`;
-                      } else {
-                        spouse = "unknown";
-                      }
-                    } 
-// find parents and match with anyone else in the data set that has same parents to label as siblings.
-                    if (parents[0] === "no parent information") {
-                      console.log(`${person.firstName} ${person.lastName}'s family members are:\nParents: no parent information\nCurrent Spouse: ${spouse}\nSiblings: no sibling information`);
-                    } else {
-                      siblings = data.filter(obj => obj.id !== person.id && obj.parents.some(id => person.parents.includes(id[0])))
-                                     .map(obj => `${obj.firstName} ${obj.lastName}`);
-                      if (siblings.length === 0) {
-                        siblings = ["none"];
-                      }
-                      console.log(`${person.firstName} ${person.lastName}'s family members are:\nParents: ${parents.join(", ")}\nCurrent Spouse: ${spouse}\nSiblings: ${siblings.join(", ")}`);
-                    }
+            function findPersonFamily(person) {
+                let parents = [];
+                let siblings = [];
+                let spouse;
+                // find parents by id and map their names into an array
+                if (person[0].parents > 0) {
+                  parents = data.filter(obj => person[0].parents.includes(obj.id))
+                                .map(obj => `${obj.firstName} ${obj.lastName}`);  
+                } else {
+                  parents = ["no parent information"];
+                }
+                //find current spouse and create spouse variable with first and last name 
+                if (person[0].currentSpouse) {
+                  let spouseObj = data.find(obj => obj.id === person[0].currentSpouse);
+                  if (spouseObj) {
+                    spouse = `${spouseObj.firstName} ${spouseObj.lastName}`;
+                  } else {
+                    spouse = "unknown";
                   }
-                console.log(findPersonFamily())
+                } 
+            // find parents and match with anyone else in the data set that has same parents to label as siblings.
+                if (parents[0] === "no parent information") {
+                  console.log(`${person[0].firstName} ${person[0].lastName}'s family members are:\nParents: no parent information\nCurrent Spouse: ${spouse}\nSiblings: no sibling information`);
+                } else {
+                  siblings = data.filter(obj => obj.id !== person[0].id && obj.parents.some(id => person[0].parents.includes(id[0])))
+                                 .map(obj => `${obj.firstName} ${obj.lastName}`);
+                  if (siblings.length === 0) {
+                    siblings = ["none found"];
+                  }
+                  console.log(`${person[0].firstName} ${person[0].lastName}'s family members are:\nParents: ${parents.join(", ")}\nCurrent Spouse: ${spouse}\nSiblings: ${siblings.join(", ")}`);
+                }
+              }
+            console.log(findPersonFamily(person));
+            
             break;
         case "descendants":
             //! TODO #3: Declare a findPersonDescendants function //////////////////////////////////////////
