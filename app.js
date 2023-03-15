@@ -135,7 +135,7 @@ function mainMenu(person, people) {
             //       }
             //     });
             // } 
-            // let personDescendants = findPersonDescendants(person[0], people);
+             let personDescendants = findPersonDescendants(person[0], people);
             // alert(personDescendants);
             // break;
 
@@ -252,7 +252,7 @@ function chars(input) {
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
 // input.match('id' || 'gender' || 'birthdate' || 'height' || 'weight' || 'eye color' || 'occupation')
-function findPersonDescendants(people) {
+function findPersonDescendants(person, people) {
     let childArray = [];
     console.log(people);
     people.filter((obj) => {
@@ -267,6 +267,3 @@ function findPersonDescendants(people) {
       }
     });
 } 
-let personDescendants = findPersonDescendants(person[0], people);
-alert(personDescendants);
-
