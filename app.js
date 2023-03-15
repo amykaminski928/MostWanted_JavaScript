@@ -30,6 +30,13 @@ function app(people) {
             break;
         case "no":
             //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
+            let searchTrait = promptFor(
+                "What demographic are you searching for? Enter 'id', 'gender', 'birthdate', 'height', 'weight', 'eye color' or 'occupation'.",
+                chars
+            )
+            function searchByTraits(people) {
+                
+            }
                 //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
             searchResults = searchByTraits(people);
             break;
@@ -110,27 +117,28 @@ function mainMenu(person, people) {
         case "descendants":
             //! TODO #3: Declare a findPersonDescendants function //////////////////////////////////////////
             // HINT: Review recursion lecture + demo for bonus user story
-            /**This function recursively retrieves nested parent ID numbers that match the person named by the user.  The names of the person objs that 
+            /**This function recursively retrieves nested parent ID numbers that match the person named by the user.  
+             * The names of the person objs that 
              * hold the nested ID are returned in a new array*/
-            function findPersonDescendants(person, array=[]) {
-                let childArray = data.filter(obj => obj.parents === person[0])
-                                .map(obj => `${obj.firstName} ${obj.lastName}`);
-                array = [data]
-                // Base Case - terminating condition (end of branch)
-                if (childArray.length === 0) {
-                    return array;
-                }
-                // Resursive Case - branch has sub branches, search continues
-                for (let i = 0; i < childArray.length; i++) {
-                    array = array.concat(
-                        findPersonDescendants(childArray[i])
-                    );
-                }
-                return array
-            }
-            let personDescendants = findPersonDescendants(person[0], people);
-            alert(personDescendants);
-            break;
+            // function findPersonDescendants(person, people) {
+            //     let childArray = [];
+            //     console.log(people);
+            //     people.filter(obj => {
+            //         // Base Case - terminating condition (end of branch)
+            //       if (obj.parents.includes(person.id)) {
+            //         childArray.push(obj.firstName + " " + obj.lastName);
+            //         // Resursive Case - branch has sub branches, search continues
+            //         if (obj.parents.length > 0) {
+            //           let children = findPersonDescendants(data, person.id);
+            //           childArray = childArray.concat(children);
+            //         }
+            //       }
+            //     });
+            // } 
+            // let personDescendants = findPersonDescendants(person[0], people);
+            // alert(personDescendants);
+            // break;
+
         case "restart":
             // Restart app() from the very beginning
             app(people);
@@ -236,9 +244,29 @@ function yesNo(input) {
  * @returns {Boolean}           Default validation -- no logic yet.
  */
 function chars(input) {
-    return true; // Default validation only
+    return true; 
+    // Default validation only
 }
 // End of chars()
 
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
+// input.match('id' || 'gender' || 'birthdate' || 'height' || 'weight' || 'eye color' || 'occupation')
+function findPersonDescendants(people) {
+    let childArray = [];
+    console.log(people);
+    people.filter((obj) => {
+        // Base Case - terminating condition (end of branch)
+      if (obj.parents.includes(person.id)) {
+        childArray.push(obj.firstName + " " + obj.lastName);
+        // Resursive Case - branch has sub branches, search continues
+        if (obj.parents.length > 0) {
+          let children = findPersonDescendants(data, person.id);
+          childArray = childArray.concat(children);
+        }
+      }
+    });
+} 
+let personDescendants = findPersonDescendants(person[0], people);
+alert(personDescendants);
+
