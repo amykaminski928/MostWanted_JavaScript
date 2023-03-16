@@ -29,7 +29,8 @@ function app(people) {
             searchResults = searchByName(people);
             break;
         case "no":
-            searchByTraits(people);
+            let traitSearch = searchByTraits(people);
+            displayPeople(traitSearch);
             break;
         default:
             // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
@@ -255,49 +256,54 @@ function findPersonDescendants(person, people) {
 //     "What demographic are you searching for? Enter 'gender', 'birthdate', 'height', 'weight', 'eye color' or 'occupation'.",
 //     chars
 // )
-function peopleTraitsArray(){
-    let traits = [];
-    const searchFields = [
-    'gender', 'date', 'height', 'weight', 'eye color', 'occupation'
-    ];      
-        let count = 0;
-        for (const field of searchFields) {
-        if (count >= 5) break;
-    
-        const userInput = prompt(`Enter a ${field} to search (or leave blank to skip):`);
-        if (validateTraitInput(userInput)) {
-            traits.push(userInput);
-            count+=1;
-        }
-        }
-    
-        if (count > 0) {
-        return traits;
-    
-        }else {
-            return app();
-        }
-}
-function searchByTraits(people){(peopleTraitsArray())
-        const peopleWithTraits = people.filter(person =>
-            (!traits.gender || person.gender === traits.gender) &&
-            (!traits.dob || person.dob === traits.dob) &&
-            (!traits.height || (person.height >= traits.height.min && person.height <= traits.height.max)) && 
-            (!traits.weight || person.weight === traits.weight) &&
-            (!traits.eyeColor || person.eyeColor === traits.eyeColor) &&
-            (!traits.occupation || person.occupation === traits.occupation)
-            );
-            
-            return peopleWithTraits;
-            
-}
+ 
+    function searchByTraits(people){
+        const traits = [];
+        const searchFields = [
+        'gender', 'date', 'height', 'weight', 'eye color', 'occupation'
+        ];      
+            let count = 0;
+            for (const field of searchFields) {
+            if (count >= 5) break;
+        
+            const userInput = prompt(`Enter a ${field} to search (or leave blank to skip):`);
+            if (validateTraitInput(userInput)) {
+                traits.push(userInput);
+                count+=1;
+            }
+            }
+        
+            if (count > 0) {
+            return peopleTraitsArray(people, traits);
+        
+            }else {
+                return app(people);
+            }
+    }
+    function peopleTraitsArray(people, traits){ 
+            let matchedPeople = [] 
+            for (const person of people) {
+            if (person.gender === traits[0]) matchedPeople.push(person); 
+            if (person.dob === traits[1]) matchedPeople.push(person);
+            if (person.height === traits[2]) matchedPeople.push(person);
+            if (person.weight === traits[3]) matchedPeople.push(person);
+            if (person.eyeColor === traits[4]) matchedPeople.push(person);
+            if (person.occupation === traits[5]) matchedPeople.push(person);
+            else alert("No matches for your search, please try again.")
+            }
+                
+        return matchedPeople;
+                
+    }
 
+ 
 
 
 
      
 function validateTraitInput(){
     chars;
+    return true;
 } 
 
 
