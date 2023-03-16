@@ -30,7 +30,7 @@ function app(people) {
             break;
         case "no":
             let traitSearch = searchByTraits(people);
-            displayPeople(traitSearch);
+            alert(displayPeople(traitSearch));
             break;
         default:
             // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
@@ -280,21 +280,39 @@ function findPersonDescendants(person, people) {
                 return app(people);
             }
     }
-    function peopleTraitsArray(people, traits){ 
-            let matchedPeople = [] 
-            for (const person of people) {
-            if (person.gender === traits[0]) matchedPeople.push(person); 
-            if (person.dob === traits[1]) matchedPeople.push(person);
-            if (person.height === traits[2]) matchedPeople.push(person);
-            if (person.weight === traits[3]) matchedPeople.push(person);
-            if (person.eyeColor === traits[4]) matchedPeople.push(person);
-            if (person.occupation === traits[5]) matchedPeople.push(person);
-            else alert("No matches for your search, please try again.")
+    function peopleTraitsArray(people, traits) {
+        let matchedPeople = [];
+    
+        let peopleIndex = 0;
+    
+        while (peopleIndex < people.length) {
+            const person = people[peopleIndex];
+            let matched = false;
+    
+            if (person.gender === traits[0]) {
+                matched = true;
+            } else if (person.dob === traits[1]) {
+                matched = true;
+            } else if (person.height === traits[2]) {
+                matched = true;
+            } else if (person.weight === traits[3]) {
+                matched = true;
+            } else if (person.eyeColor === traits[4]) {
+                matched = true;
+            } else if (person.occupation === traits[5]) {
+                matched = true;
             }
-                
+    
+            if (matched) {
+                matchedPeople.push(person);
+            }
+    
+            peopleIndex++;
+        }
+    
         return matchedPeople;
-                
     }
+    
 
  
 
