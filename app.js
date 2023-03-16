@@ -57,9 +57,12 @@ function mainMenu(person, people) {
         // Restarts app() from the very beginning
         return app(people);
     }
-    let displayOption = prompt(
-        `Found ${person[0].firstName} ${person[0].lastName}. Do you want to know their 'info', 'family', or 'descendants'?\nType the option you want or type 'restart' or 'quit'.`
-    );
+    let displayOption;
+        do {displayOption= prompt( `Found ${person[0].firstName} ${person[0].lastName}. Do you want to know their 'info', 'family', or 'descendants'?\nType the option you want or type 'restart' or 'quit'.`);}
+        while(!validateDisplayOption(displayOption))
+    // let displayOption = prompt(
+    //     `Found ${person[0].firstName} ${person[0].lastName}. Do you want to know their 'info', 'family', or 'descendants'?\nType the option you want or type 'restart' or 'quit'.`
+    // );
     // Routes our application based on the user's input
     switch (displayOption) {
         case "info":
@@ -257,72 +260,65 @@ function findPersonDescendants(person, people) {
 //     chars
 // )
  
-    function searchByTraits(people){
-        const traits = [];
-        const searchFields = [
-        'gender', 'date', 'height', 'weight', 'eye color', 'occupation'
-        ];      
-            let count = 0;
-            for (const field of searchFields) {
-            if (count >= 5) break;
-        
-            const userInput = prompt(`Enter a ${field} to search (or leave blank to skip):`);
-            if (validateTraitInput(userInput)) {
-                traits.push(userInput);
-                count+=1;
-            }
-            }
-        
-            if (count > 0) {
-            return peopleTraitsArray(people, traits);
-        
-            }else {
-                return app(people);
-            }
-    }
-    function peopleTraitsArray(people, traits) {
-        let matchedPeople = [];
+function searchByTraits(people) {
+    const traitsObj = {};
+    const searchFields = [
+        'gender', 'dob', 'height', 'weight', 'eyeColor', 'occupation'
+    ];
+
     
-        let peopleIndex = 0;
-    
-        while (peopleIndex < people.length) {
-            const person = people[peopleIndex];
-            let matched = false;
-    
-            if (person.gender === traits[0]) {
-                matched = true;
-            } else if (person.dob === traits[1]) {
-                matched = true;
-            } else if (person.height === traits[2]) {
-                matched = true;
-            } else if (person.weight === traits[3]) {
-                matched = true;
-            } else if (person.eyeColor === traits[4]) {
-                matched = true;
-            } else if (person.occupation === traits[5]) {
-                matched = true;
-            }
-    
-            if (matched) {
-                matchedPeople.push(person);
-            }
-    
-            peopleIndex++;
+    for (const field of searchFields) {
+        const userInput = prompt(`Enter a ${field} to search (or leave blank to skip):`);
+        if (validateTraitInput(userInput)) {
+            traitsObj[field] = userInput;
         }
-    
-        return matchedPeople;
     }
-    
+
+    if (Object.keys(traitsObj).length > 0) {
+        return peopleTraitsArray(people, traitsObj);
+    } else {
+        return app(people);
+    }
+}
+
+function peopleTraitsArray(people, traitsObj) {
+    let matchedPeople = [];
+    let peopleIndex = 0;
+
+    while (peopleIndex < people.length) {
+        const person = people[peopleIndex];
+        let matchedTraits = 0;
+
+        for (const trait in traitsObj) {
+            if (person[trait] === traitsObj[trait]) {
+                matchedTraits++;
+            }
+        }
+
+        if (matchedTraits === Object.keys(traitsObj).length) {
+            matchedPeople.push(person);
+        }
+
+        peopleIndex++;
+    }
+
+    return matchedPeople;
+}
+
 
  
 
 
 
      
-function validateTraitInput(){
-    chars;
-    return true;
-} 
+function validateTraitInput(input) {
+    return input !== null && input.trim() !== '';
+}
+
+function validateDisplayOption(input) {
+    const allowedOptions = ['info', 'family', 'descendants', 'restart', 'quit'];
+    return allowedOptions.includes(input.toLowerCase())
+}
 
 
 // // End searchByTraits function
