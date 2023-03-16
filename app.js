@@ -29,16 +29,7 @@ function app(people) {
             searchResults = searchByName(people);
             break;
         case "no":
-            //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
-            let searchTrait = promptFor(
-                "What demographic are you searching for? Enter 'gender', 'birthdate', 'height', 'weight', 'eye color' or 'occupation'.",
-                chars
-            )
-            function searchByTraits(people) {
-                
-            }
-                //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
-            searchResults = searchByTraits(people);
+            searchByTraits(people);
             break;
         default:
             // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
@@ -246,7 +237,7 @@ function findPersonFamily(person) {
 the children of person user inputs.**/
 function findPersonDescendants(person, people) {
     let childArray = [];
-    console.log(people);
+    
     function findChildren(personId){
         people.forEach((obj) => {
             if (obj.parents.includes(personId)) {
@@ -258,3 +249,56 @@ function findPersonDescendants(person, people) {
     return childArray;
 }     
 // end findPersonDescendants function
+
+//! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
+// let searchTrait = promptFor(
+//     "What demographic are you searching for? Enter 'gender', 'birthdate', 'height', 'weight', 'eye color' or 'occupation'.",
+//     chars
+// )
+function peopleTraitsArray(){
+    let traits = [];
+    const searchFields = [
+    'gender', 'date', 'height', 'weight', 'eye color', 'occupation'
+    ];      
+        let count = 0;
+        for (const field of searchFields) {
+        if (count >= 5) break;
+    
+        const userInput = prompt(`Enter a ${field} to search (or leave blank to skip):`);
+        if (validateTraitInput(userInput)) {
+            traits.push(userInput);
+            count+=1;
+        }
+        }
+    
+        if (count > 0) {
+        return traits;
+    
+        }else {
+            return app();
+        }
+}
+function searchByTraits(people){(peopleTraitsArray())
+        const peopleWithTraits = people.filter(person =>
+            (!traits.gender || person.gender === traits.gender) &&
+            (!traits.dob || person.dob === traits.dob) &&
+            (!traits.height || (person.height >= traits.height.min && person.height <= traits.height.max)) && 
+            (!traits.weight || person.weight === traits.weight) &&
+            (!traits.eyeColor || person.eyeColor === traits.eyeColor) &&
+            (!traits.occupation || person.occupation === traits.occupation)
+            );
+            
+            return peopleWithTraits;
+            
+}
+
+
+
+
+     
+function validateTraitInput(){
+    chars;
+} 
+
+
+// // End searchByTraits function
