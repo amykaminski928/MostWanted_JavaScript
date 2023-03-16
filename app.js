@@ -31,7 +31,7 @@ function app(people) {
         case "no":
             //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
             let searchTrait = promptFor(
-                "What demographic are you searching for? Enter 'id', 'gender', 'birthdate', 'height', 'weight', 'eye color' or 'occupation'.",
+                "What demographic are you searching for? Enter 'gender', 'birthdate', 'height', 'weight', 'eye color' or 'occupation'.",
                 chars
             )
             function searchByTraits(people) {
@@ -77,41 +77,8 @@ function mainMenu(person, people) {
             alert(personInfo);
             break;
         case "family":
-            //! TODO #2: Declare a findPersonFamily function //////////////////////////////////////////
-            // HINT: Look for a people-collection stringifier utility function to help
-            function findPersonFamily(person) {
-                let parents = [];
-                let siblings = [];
-                let spouse;
-                // find parents by id and map their names into an array
-                if (person[0].parents > 0) {
-                  parents = data.filter(obj => person[0].parents.includes(obj.id))
-                                .map(obj => `${obj.firstName} ${obj.lastName}`);  
-                } else {
-                  parents = ["no parent information"];
-                }
-                //find current spouse and create spouse variable with first and last name 
-                if (person[0].currentSpouse) {
-                  let spouseObj = data.find(obj => obj.id === person[0].currentSpouse);
-                  if (spouseObj) {
-                    spouse = `${spouseObj.firstName} ${spouseObj.lastName}`;
-                  } else {
-                    spouse = "unknown";
-                  }
-                } 
-            // find parents and match with anyone else in the data set that has same parents to label as siblings.
-                if (parents[0] === "no parent information") {
-                  console.log(`${person[0].firstName} ${person[0].lastName}'s family members are:\nParents: no parent information\nCurrent Spouse: ${spouse}\nSiblings: no sibling information`);
-                } else {
-                  siblings = data.filter(obj => obj.id !== person[0].id && obj.parents.some(id => person[0].parents.includes(id)))
-                                 .map(obj => `${obj.firstName} ${obj.lastName}`);
-                  if (siblings.length === 0) {
-                    siblings = ["none found"];
-                  }
-                  console.log(`${person[0].firstName} ${person[0].lastName}'s family members are:\nParents: ${parents.join(", ")}\nCurrent Spouse: ${spouse}\nSiblings: ${siblings.join(", ")}`);
-                }
-              }
-            console.log(findPersonFamily(person));
+
+            alert(findPersonFamily(person));
             
             break;
         case "descendants":
@@ -120,24 +87,10 @@ function mainMenu(person, people) {
             /**This function recursively retrieves nested parent ID numbers that match the person named by the user.  
              * The names of the person objs that 
              * hold the nested ID are returned in a new array*/
-            // function findPersonDescendants(person, people) {
-            //     let childArray = [];
-            //     console.log(people);
-            //     people.filter(obj => {
-            //         // Base Case - terminating condition (end of branch)
-            //       if (obj.parents.includes(person.id)) {
-            //         childArray.push(obj.firstName + " " + obj.lastName);
-            //         // Resursive Case - branch has sub branches, search continues
-            //         if (obj.parents.length > 0) {
-            //           let children = findPersonDescendants(data, person.id);
-            //           childArray = childArray.concat(children);
-            //         }
-            //       }
-            //     });
-            // } 
-             let personDescendants = findPersonDescendants(person[0], people);
-            // alert(personDescendants);
-            // break;
+          
+            let personDescendants = findPersonDescendants(person[0], people);
+            displayPeople(personDescendants);
+            break;
 
         case "restart":
             // Restart app() from the very beginning
@@ -252,18 +205,56 @@ function chars(input) {
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
 // input.match('id' || 'gender' || 'birthdate' || 'height' || 'weight' || 'eye color' || 'occupation')
+            //! TODO #2: Declare a findPersonFamily function //////////////////////////////////////////
+            // HINT: Look for a people-collection stringifier utility function to help
+/*This function runs in the "family" switch case above*/
+function findPersonFamily(person) {
+    let parents = [];
+    let siblings = [];
+    let spouse;
+    // find parents by id and map their names into an array
+    if (person[0].parents > 0) {
+        parents = data.filter(obj => person[0].parents.includes(obj.id))
+                    .map(obj => `${obj.firstName} ${obj.lastName}`);  
+    } else {
+        parents = ["no parent information"];
+    }
+    //find current spouse and create spouse variable with first and last name 
+    if (person[0].currentSpouse) {
+        let spouseObj = data.find(obj => obj.id === person[0].currentSpouse);
+        if (spouseObj) {
+        spouse = `${spouseObj.firstName} ${spouseObj.lastName}`;
+        } else {
+        spouse = "unknown";
+        }
+    } 
+// find parents and match with anyone else in the data set that has same parents to label as siblings.
+    if (parents[0] === "no parent information") {
+        alert(`${person[0].firstName} ${person[0].lastName}'s family members are:\nParents: no parent information\nCurrent Spouse: ${spouse}\nSiblings: no sibling information`);
+    } else {
+        siblings = data.filter(obj => obj.id !== person[0].id && obj.parents.some(id => person[0].parents.includes(id)))
+                        .map(obj => `${obj.firstName} ${obj.lastName}`);
+        if (siblings.length === 0) {
+        siblings = ["none found"];
+        }
+        alert(`${person[0].firstName} ${person[0].lastName}'s family members are:\nParents: ${parents.join(", ")}\nCurrent Spouse: ${spouse}\nSiblings: ${siblings.join(", ")}`);
+    }
+    }
+// end findPersonFamily function
+
+/**begin findPersonDescendants function which uses recursion to find
+the children of person user inputs.**/
 function findPersonDescendants(person, people) {
     let childArray = [];
     console.log(people);
-    people.filter((obj) => {
-        // Base Case - terminating condition (end of branch)
-      if (obj.parents.includes(person.id)) {
-        childArray.push(obj.firstName + " " + obj.lastName);
-        // Resursive Case - branch has sub branches, search continues
-        if (obj.parents.length > 0) {
-          let children = findPersonDescendants(data, person.id);
-          childArray = childArray.concat(children);
-        }
-      }
-    });
-} 
+    function findChildren(personId){
+        people.forEach((obj) => {
+            if (obj.parents.includes(personId)) {
+            childArray.push(obj);
+            findChildren(obj.id)}
+              })
+        }   
+        findChildren(person.id)  
+    return childArray;
+}     
+// end findPersonDescendants function
